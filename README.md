@@ -1,4 +1,4 @@
-📌 Description du projet
+# 📌 Description du projet
 
 Dans le cadre de mon projet de fin d’année en BTS CIEL, j’ai participé à la réalisation d’une solution de sécurisation des salles serveurs en collaboration avec la métropole de Montpellier.
 
