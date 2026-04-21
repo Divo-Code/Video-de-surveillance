@@ -1,0 +1,3 @@
+monenv/ 
+__pycache__/ 
+*.pyc 

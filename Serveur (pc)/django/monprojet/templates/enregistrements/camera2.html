@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/logo_onglet_3m.ico' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Enregistrements Caméra</title>
+    <link rel="stylesheet" href="{% static 'css/styleee.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/"><img src="{% static 'images/3m.png' %}" alt="mairie"></a>
+            <ul>
+                <li><a href="/" class="sidebar-link">Accueil</a></li>
+                <li><a href="/camera" class="sidebar-link">Caméra en Live</a></li>
+                <li><a href="/camera/alertes" class="sidebar-link">Alertes Caméra</a></li>
+                <li class="mb-4"><a href="#" class="sidebar-link-select">Enregistrements Caméra</a></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <h1 class="heading">Enregistrements Caméra <img src="{% static 'images/refresh.png' %}" onclick='window.location.reload(false)' class="refresh" value="Rafraichir"/></h1><br>
+            <ul class="flex-container">
+                
+                <li><a href="/camera/enregistrements" class="sidebar-index-camera">Toutes les Caméras</a></li>
+                <li><a href="/camera/enregistrements/camera1/" class="sidebar-index-camera">Caméra 1</a></li>
+                <li><a href="/camera/enregistrements/camera2/" class="sidebar-link-camera">Caméra 2</a></li>
+                <li><a href="/camera/enregistrements/camera3/" class="sidebar-index-camera">Caméra 3</a></li>
+                <li><a href="/camera/enregistrements/camera4/" class="sidebar-index-camera">Caméra 4</a></li>
+            </ul>
+            <div class="video-grid">
+
+                {% for video in videos_camera2 %}
+                    <div class="video-item">
+                        <video controls>
+                            <source src="{% url 'lecture_video_camera2' video %}" type="video/mp4">
+                            Votre navigateur ne prend pas en charge la balise vidéo.
+                        </video>
+                        <h2>{{ video }}</h2>
+                    </div>
+                {% empty %}
+                    <p>Aucun enregistrement disponible.</p><br> <!-- Le <br> est maintenant ici -->
+                {% endfor %}
+
+                {% if error %}
+                    <div class="error-message" style="color: red; font-weight: bold; display: block;">{{ error }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="hideVideo()">
+        <video id="overlay-video" controls></video>
+    </div>
+
+    <script>
+        function showVideo(element) {
+            document.getElementById('overlay-video').src = element.src;
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function hideVideo() {
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+    </script>
+</body>
+</html>

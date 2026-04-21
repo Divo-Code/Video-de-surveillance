@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/logo_onglet_3m.ico' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Live</title>
+    <link rel="stylesheet" href="{% static 'css/styleee.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            justify-items: center;
+            margin-top: 20px;
+        }
+        .camera-item img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .camera-item img:hover {
+            transform: scale(1.05);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .overlay img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+        .overlay.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/"><img src="{% static 'images/3m.png' %}" alt="mairie"></a>
+            <ul>
+                <li><a href="/" class="sidebar-link">Accueil</a></li>
+                <li><a href="#" class="sidebar-link-select">Caméra en Live</a></li>
+                <li><a href="/camera/alertes" class="sidebar-link">Alertes Caméra</a></li>
+                <li class="mb-4"><a href="/camera/enregistrements" class="sidebar-link">Enregistrements Caméra</a></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <h1 class="heading">Caméras en Live <img src="{% static 'images/refresh.png' %}" onclick='window.location.reload(false)' class="refresh" value="Rafraichir"/></h1>
+            <p class="intro-text">Cliquez sur une image pour l’agrandir.</p>
+            <div class="camera-grid">
+                <div class="camera-item">
+                    <img id="video1" src="http://172.20.24.28:2000/video_feed" alt="Caméra 1" onclick="showImage(this)" onerror="handleError1()">
+                    <h2>Caméra 1</h1>
+                </div>
+                <div class="camera-item">
+                    <img id="video2" src="" alt="Caméra 2" onclick="showImage2(this)" onerror="handleError2()">
+                    <h2>Caméra 2</h2>
+                </div>
+                <div class="camera-item">
+                    <img id="video3" src="" alt="Caméra 3" onclick="showImage3(this)" onerror="handleError3()">
+                    <h2>Caméra 3</h2>
+                </div>
+                <div class="camera-item">
+                    <img id="video4" src="" alt="Caméra 4" onclick="showImage4(this)" onerror="handleError4()">
+                    <h2>Caméra 4</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="hideImage()">
+        <img id="overlay-img" src="" alt="Agrandissement">
+    </div>
+    <script>
+        function showImage(element) {
+            document.getElementById('overlay-img').src = element.src;
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function showImage2(element) {
+            document.getElementById('overlay-img').src = element.src;
+            document.getElementById('overlay').classList.add('active');
+        }
+        function showImage3(element) {
+            document.getElementById('overlay-img').src = element.src;
+            document.getElementById('overlay').classList.add('active');
+        }
+        function showImage4(element) {
+            document.getElementById('overlay-img').src = element.src;
+            document.getElementById('overlay').classList.add('active');
+        }
+        
+        function hideImage() {
+            document.getElementById('overlay').classList.remove('active');
+        }
+        function handleError1() {
+            // Si le flux vidéo ne fonctionne pas, afficher l'image de secours
+            var fallbackImage = "{% static 'images/image.jpg' %}";  // Utilise le tag static dans une variable JavaScript
+            document.getElementById('video1').src = fallbackImage;
+        }
+        function handleError2() {
+            // Si le flux vidéo ne fonctionne pas, afficher l'image de secours
+            var fallbackImage = "{% static 'images/image.jpg' %}";  // Utilise le tag static dans une variable JavaScript
+            document.getElementById('video2').src = fallbackImage;
+        }
+        function handleError3() {
+            // Si le flux vidéo ne fonctionne pas, afficher l'image de secours
+            var fallbackImage = "{% static 'images/image.jpg' %}";  // Utilise le tag static dans une variable JavaScript
+            document.getElementById('video3').src = fallbackImage;
+        }
+        function handleError4() {
+            // Si le flux vidéo ne fonctionne pas, afficher l'image de secours
+            var fallbackImage = "{% static 'images/image.jpg' %}";  // Utilise le tag static dans une variable JavaScript
+            document.getElementById('video4').src = fallbackImage;
+        }
+    </script>
+</body>
+</html>

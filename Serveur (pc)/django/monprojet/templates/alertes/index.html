@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/logo_onglet_3m.ico' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Accueil</title>
+    <link rel="stylesheet" href="{% static 'css/styleee.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta http-equiv="refresh" content="6">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="/"><img src="{% static 'images/3m.png' %}" alt="mairie"></a>
+            <!--<h2 class="text-2xl font-bold mb-6">Dashboard</h2><br>-->
+            <ul>
+                <li class="mb-4"><a href="\" class="sidebar-link">Accueil</a></li>
+                <li><a href="/camera/" class="sidebar-link">Caméra en Live</a></li>
+                <li class="mb-4"><a href="#" class="sidebar-link-select">Alertes Caméra</a></li>
+                <li class="mb-4"><a href="/camera/enregistrements" class="sidebar-link">Enregistrements Caméra</a></li>
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1 class="heading">Alertes Caméra</h1><br>
+            <ul class="flex-container">
+                
+                <li><a href="/camera/alertes" class="sidebar-link-camera">Toutes les Caméras</a></li>
+                <li><a href="/camera/alertes/camera1" class="sidebar-index-camera">Caméra 1</a></li>
+                <li><a href="/camera/alertes/camera2" class="sidebar-index-camera">Caméra 2</a></li>
+                <li><a href="/camera/alertes/camera3" class="sidebar-index-camera">Caméra 3</a></li>
+                <li><a href="/camera/alertes/camera4" class="sidebar-index-camera">Caméra 4</a></li>
+            </ul>
+{% for alerte in alertes %}
+    {% if not alerte.video_disponible %}
+        <div class="mt-8 bg-red-500 text-white p-6 rounded-lg shadow-lg w-full max-w-2xl flex items-center">
+            <span class="text-4xl mr-4">⚠️</span>
+            <div>
+                <p class="text-lg font-semibold">Caméra {{ alerte.numero_camera }} : Alerte Intrusion !</p>
+                <p>Une intrusion a été détectée à <strong>{{ alerte.heure }}</strong> le <strong>{{ alerte.date }}</strong>.</p>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if alerte.video_disponible %}
+        <div class="mt-6 bg-blue-500 text-white p-6 rounded-lg shadow-lg w-full max-w-2xl flex items-center justify-between">
+            <!-- Texte à gauche -->
+            <div class="flex flex-col">
+                <div class="flex items-center">
+                    <span class="text-4xl mr-2">🎥</span>
+                    <p class="text-lg font-semibold">Vidéo enregistrée</p>
+                </div>
+                <p>La caméra a enregistré une séquence après l'intrusion.</p>
+                <p><strong>Horodatage :</strong> {{ alerte.heure }}, le {{ alerte.date }}</p>
+            </div>
+
+            <!-- Aperçu Vidéo à droite -->
+            <div>
+                <a href="{{ alerte.video_disponible }}" target="_blank">
+                    <video src="{{ alerte.video_disponible }}" class="w-48 h-28 rounded-lg shadow-lg cursor-pointer hover:opacity-80 transition" muted></video>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+
+<!-- Fenêtre modale pour afficher la vidéo en grand -->
+<div id="videoModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden">
+    <div class="relative bg-white p-4 rounded-lg shadow-lg max-w-3xl w-full">
+        <button class="absolute top-2 right-2 text-white-900 hover:text-white-900 text-2xl bg-red-500" onclick="closeModal()">×</button><br>
+        <video src="{{ alerte.video_disponible }}" controls autoplay class="w-full rounded-lg"></video>
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById("videoModal").classList.remove("hidden");
+    }
+    function closeModal() {
+        document.getElementById("videoModal").classList.add("hidden");
+    }
+    
+</script>
+
+
+            
+            
+
+
+            
+
+
+            
+
+            
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
